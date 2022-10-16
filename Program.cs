@@ -1,29 +1,22 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+namespace Niue;
 
-const string jobs = "/jobs";
-
-//app.UseHttpsRedirection();
-
-app.MapGet(jobs, () =>
+internal class Program
 {
-    var jobs =  Enumerable.Range(1, 5).Select(index => new Job()).ToArray();
-    return jobs;
-})
-.WithName("Jobs");
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddSingleton<JobController>();
+
+        var app = builder.Build();
+
+        //app.UseHttpsRedirection();
+
+        // jobs
+        app.MapGet(Routes.jobs, async (JobController controller) => await controller.GetAsync());
+        app.MapGet(Routes.job, async (int id, JobController controller) => await controller.GetAsync(id));
+        app.MapPost(Routes.jobs, async (Job job, JobController constroller) => await constroller.PostAsync(job));
 
 
-// curl -i -X POST -H "Content-Type: application/json" -d '{"name": "ha"}' localhost:5271/jobs
-app.MapPost(jobs, async (Job job) => 
-{
-    // await db save
-    var g = Guid.NewGuid();
-    return Results.Created($"{jobs}/{g}", g);
-});
-
-app.Run();
-
-record Job
-{
-    public string Name {get; set;} = "name";
+        app.Run();
+    }
 }
