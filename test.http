@@ -2,7 +2,7 @@ GET http://localhost:5271/jobs
 
 ###
 
-GET http://localhost:5271/jobs/2
+GET http://localhost:5271/jobs/1
 
 ###
 
@@ -10,6 +10,7 @@ POST http://localhost:5271/jobs
 Content-Type: application/json
 
 {
-    "name": "ha"
+    "name": "My first job",
+    "Script": "//test"
 } 
 

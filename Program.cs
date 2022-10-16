@@ -5,7 +5,8 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddSingleton<JobController>();
+        builder.Services.AddDbContext<DataContext>();
+        builder.Services.AddTransient<JobController>();
 
         var app = builder.Build();
 
