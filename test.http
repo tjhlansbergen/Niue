@@ -1,33 +1,29 @@
 GET http://localhost:5271/jobs
-
 ###
-
 GET http://localhost:5271/jobs/1
-
 ###
-
 POST http://localhost:5271/jobs 
 Content-Type: application/json
-
 {
-    "name": "My first job",
-    "Script": "//test"
+    "name": "Some job",
+    "Script": "//test blablabla"
 } 
-
 ###
-
 PUT http://localhost:5271/jobs/1
 Content-Type: application/json
 
 {
     "name": "My first job with updated name"
 } 
-
 ###
-
-PUT http://localhost:5271/jobs/1
+PUT http://localhost:5271/jobs/3
 Content-Type: application/json
 
 {
-    "intervalMinutes": 10
+    "intervalMinutes": 10,
+    "dueDateUTC": "2022-10-19"
 } 
+###
+DELETE http://localhost:5271/jobs/2
+###
+GET http://localhost:5271/kick

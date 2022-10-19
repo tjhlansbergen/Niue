@@ -6,5 +6,5 @@ public record Job
     public string Name { get; set; } = string.Empty;
     public string Script { get; set; } = string.Empty;
     public int? IntervalMinutes { get; set; } = null;
-    public DateTime? DueDate { get; set; }
+    public DateTime? DueDateUTC { get; set; }
 }

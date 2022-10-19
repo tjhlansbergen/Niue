@@ -12,7 +12,7 @@ public class JobController
 
     public async Task<IResult> GetAsync()
     {
-        var jobIds = await _context.Jobs.Select(j => new { Id = j.Id, Name = j.Name, IntervalMinutes = j.IntervalMinutes, DueDate = j.DueDate }).ToListAsync();
+        var jobIds = await _context.Jobs.Select(j => new { Id = j.Id, Name = j.Name, IntervalMinutes = j.IntervalMinutes, DueDate = j.DueDateUTC }).ToListAsync();
         return Results.Ok(jobIds);
     }
 
@@ -45,7 +45,7 @@ public class JobController
         existingJob.Name = string.IsNullOrWhiteSpace(incomingJob.Name) ? existingJob.Name : incomingJob.Name;
         existingJob.Script = string.IsNullOrWhiteSpace(incomingJob.Script) ? existingJob.Script : incomingJob.Script;
         existingJob.IntervalMinutes = incomingJob.IntervalMinutes == null ? existingJob.IntervalMinutes : incomingJob.IntervalMinutes;
-        existingJob.DueDate = incomingJob.DueDate == null ? existingJob.DueDate : incomingJob.DueDate;
+        existingJob.DueDateUTC = incomingJob.DueDateUTC == null ? existingJob.DueDateUTC : incomingJob.DueDateUTC;
 
         await _context.SaveChangesAsync();
         return Results.Ok(existingJob);
