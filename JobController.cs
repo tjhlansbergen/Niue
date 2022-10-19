@@ -12,7 +12,7 @@ public class JobController
 
     public async Task<IResult> GetAsync()
     {
-        var jobIds = await _context.Jobs.Select(j => new { Id = j.Id, Name = j.Name }).ToListAsync();
+        var jobIds = await _context.Jobs.Select(j => new { Id = j.Id, Name = j.Name, IntervalMinutes = j.IntervalMinutes, DueDate = j.DueDate }).ToListAsync();
         return Results.Ok(jobIds);
     }
 
@@ -29,9 +29,36 @@ public class JobController
             return Results.BadRequest("Please include a script");
         }
 
-
         await _context.Jobs.AddAsync(job);
         await _context.SaveChangesAsync();
-        return Results.Created($"{Routes.job}/{job.Id}", job);
+        return Results.Created($"{Routes.jobs_id}/{job.Id}", job);
+    }
+
+    public async Task<IResult> PutAsync(int id, Job incomingJob)
+    {
+        // note that we use the ID from the query string here to find the existing entity
+        var existingJob = await _context.Jobs.FindAsync(id);
+
+        if (existingJob == null) { return Results.NotFound(); }
+
+        // manually update the entity, ignoring the ID of the incoming item
+        existingJob.Name = string.IsNullOrWhiteSpace(incomingJob.Name) ? existingJob.Name : incomingJob.Name;
+        existingJob.Script = string.IsNullOrWhiteSpace(incomingJob.Script) ? existingJob.Script : incomingJob.Script;
+        existingJob.IntervalMinutes = incomingJob.IntervalMinutes == null ? existingJob.IntervalMinutes : incomingJob.IntervalMinutes;
+        existingJob.DueDate = incomingJob.DueDate == null ? existingJob.DueDate : incomingJob.DueDate;
+
+        await _context.SaveChangesAsync();
+        return Results.Ok(existingJob);
+    }
+
+    public async Task<IResult> Delete(int id)
+    {
+        var job = await _context.Jobs.FindAsync(id);
+        if (job == null) { return Results.NotFound(); }
+
+        _context.Remove(job);
+        await _context.SaveChangesAsync();
+
+        return Results.NoContent();
     }
 }

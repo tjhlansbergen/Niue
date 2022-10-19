@@ -14,3 +14,20 @@ Content-Type: application/json
     "Script": "//test"
 } 
 
+###
+
+PUT http://localhost:5271/jobs/1
+Content-Type: application/json
+
+{
+    "name": "My first job with updated name"
+} 
+
+###
+
+PUT http://localhost:5271/jobs/1
+Content-Type: application/json
+
+{
+    "intervalMinutes": 10
+} 

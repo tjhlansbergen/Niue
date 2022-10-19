@@ -9,14 +9,14 @@ internal class Program
         builder.Services.AddTransient<JobController>();
 
         var app = builder.Build();
-
         //app.UseHttpsRedirection();
 
         // jobs
-        app.MapGet(Routes.jobs, async (JobController controller) => await controller.GetAsync());
-        app.MapGet(Routes.job, async (int id, JobController controller) => await controller.GetAsync(id));
-        app.MapPost(Routes.jobs, async (Job job, JobController constroller) => await constroller.PostAsync(job));
-
+        app.MapGet(Routes.jobs, async (JobController c) => await c.GetAsync());
+        app.MapGet(Routes.jobs_id, async (int id, JobController c) => await c.GetAsync(id));
+        app.MapPost(Routes.jobs, async (Job job, JobController c) => await c.PostAsync(job));
+        app.MapPut(Routes.jobs_id, async (int id, Job job, JobController c) => await c.PutAsync(id, job));
+        app.MapDelete(Routes.jobs_id, async (int id, JobController c) => await c.Delete(id));
 
         app.Run();
     }
