@@ -26,26 +26,27 @@ public class Engine
         }
 
         // do work
-        await Parallel.ForEachAsync(jobsToRun, new ParallelOptions { MaxDegreeOfParallelism = 20 }, async (job, ct) => await Execute(job, ct));
+        await Parallel.ForEachAsync(jobsToRun, new ParallelOptions { MaxDegreeOfParallelism = 20 }, async (job, ct) => await ExecuteJob(job, ct));
     }
 
-    private async Task Execute(Job job, CancellationToken ct)
+    private async Task ExecuteJob(Job job, CancellationToken ct)
     {
         if (ct.IsCancellationRequested)
         {
             return;
         }
 
+        // run
         Console.WriteLine($"Executing job {job.Id}");
+        var result = RunScript(job.Script);
 
-        // TODO
-        // new instance of the interpreter,
-        // execute,
-        // write output to a log record
-
-        // last but not least
+        // log
         using (var c = new DataContext(_configuration))
         {
+            // write log
+            await c.Logs.AddAsync(new Log { JobId = job.Id, Date = DateTime.UtcNow, RunMode = RunMode.SCHEDULED, Record = result });
+
+            // update due date
             var dbjob = await c.Jobs.FindAsync(job.Id);
             if (dbjob != null)
             {
@@ -53,5 +54,15 @@ public class Engine
                 await c.SaveChangesAsync();
             }
         }
+    }
+
+    public static string RunScript(string script)
+    {
+        
+
+        // TODO
+        // new instance of the interpreter,
+        // execute,
+        return script; // for now, just echo back the script
     }
 }

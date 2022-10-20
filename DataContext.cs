@@ -5,7 +5,7 @@ namespace Niue;
 public class DataContext : DbContext
 {
     public DbSet<Job> Jobs => Set<Job>();
-    public DbSet<Log>? Logs => Set<Log>();
+    public DbSet<Log> Logs => Set<Log>();
 
     private readonly IConfiguration _configuration;
 

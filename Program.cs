@@ -7,6 +7,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddDbContext<DataContext>();
         builder.Services.AddTransient<JobController>();
+        builder.Services.AddTransient<LogController>();
         builder.Services.AddTransient<Engine>();
 
         var app = builder.Build();
@@ -20,6 +21,7 @@ internal class Program
         app.MapDelete(Routes.jobs_id, async (int id, JobController c) => await c.Delete(id));
 
         // logs
+        app.MapGet(Routes.logs_jobId, async (int jobId, LogController c) => await c.GetByJobAsync(jobId));
 
         // kick
         app.MapGet(Routes.kick, async (Engine e) => await e.Kick());

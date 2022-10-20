@@ -1,5 +1,6 @@
-namespace Niue;
 using Microsoft.EntityFrameworkCore;
+
+namespace Niue;
 
 public class JobController
 {
