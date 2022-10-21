@@ -5,7 +5,7 @@ public record Log
     public int Id { get; set; }
     public int JobId { get; set; }
     public DateTime Date { get; set; }
-    public string Record { get; set; } = string.Empty;
+    public string Output { get; set; } = string.Empty;
     public RunMode RunMode { get; set; }
 }
 

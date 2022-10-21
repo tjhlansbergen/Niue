@@ -21,7 +21,8 @@ internal class Program
         app.MapDelete(Routes.jobs_id, async (int id, JobController c) => await c.Delete(id));
 
         // logs
-        app.MapGet(Routes.logs_jobId, async (int jobId, LogController c) => await c.GetByJobAsync(jobId));
+        app.MapGet(Routes.logs_id, async (int id, LogController c) => await c.GetAsync(id));
+        app.MapGet(Routes.logs, async (int jobId, int? limit, LogController c) => await c.GetByJobAsync(jobId, limit));
 
         // kick
         app.MapGet(Routes.kick, async (Engine e) => await e.Kick());

@@ -28,4 +28,8 @@ DELETE http://localhost:5271/jobs/2
 ###
 GET http://localhost:5271/kick
 ###
-GET http://localhost:5271/logs/4
+GET http://localhost:5271/logs/2
+###
+GET http://localhost:5271/logs?jobid=3
+###
+GET http://localhost:5271/logs?jobid=3&limit=1

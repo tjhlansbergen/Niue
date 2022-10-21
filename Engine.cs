@@ -44,7 +44,7 @@ public class Engine
         using (var c = new DataContext(_configuration))
         {
             // write log
-            await c.Logs.AddAsync(new Log { JobId = job.Id, Date = DateTime.UtcNow, RunMode = RunMode.SCHEDULED, Record = result });
+            await c.Logs.AddAsync(new Log { JobId = job.Id, Date = DateTime.UtcNow, RunMode = RunMode.SCHEDULED, Output = result });
 
             // update due date
             var dbjob = await c.Jobs.FindAsync(job.Id);
